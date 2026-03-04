@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Nome da Empresa: <input type="text" id="input_nome"></h2>
+    <br>
+    <h2>Faturamento Anual: <input type="text" id="input_lucro"></h2>
+    <br>
+    <button onclick="calcular()"><h2>Calcular</h2></button>
+    <h2 id="mensagem"></h2>
+</body>
+</html>
+<script>
+    function calcular(){
+    let nome = input_nome.value;
+    let faturamento = Number(input_lucro.value);
+    let percprejuizo = 0.13;
+    let estprejuízo = faturamento*percprejuizo;
+    mensagem.innerHTML = `Sua empresa ${nome} possuí um faturamento anual de R$ ${faturamento.toFixed(2)}<br>
+    Um desastre te traria um prejuízo de ${percprejuizo*100}% do seu faturamento anual<br>
+    Que seria cerca de R$ ${estprejuízo.toFixed(2)}`;
+    }
+</script>

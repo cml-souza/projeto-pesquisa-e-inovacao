@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Simulador Financeiro</title>
+</head>
+<body>
+    Famílias afetadas: <input type="text" id="input_familias"><br><br>
+Casas atingidas: <input type="text" id="input_casas"><br><br>
+Metros de solo florestal atingidos: <input type="text" id="input_solo"><br><br>
+Meses de operação paralisada: <input type="text" id="input_meses"><br><br>
+
+<button onclick="Calcular()"> Simular Prejuízo </button>
+
+<div id="div_mensagem"></div>
+
+</body>
+</html>
+<script>
+    let simulacao = 0
+function Calcular() {
+    let milhao = 1000000;
+    let bilhao = 1000000000;
+
+    let familias = Number(input_familias.value);
+    let casas = Number(input_casas.value);
+    let solo = Number(input_solo.value);
+    let meses = Number(input_meses.value);
+
+    let valorFamilias = familias * 50000 / milhao;
+    let valorCasas = casas * 150000 / milhao;
+    let valorSolo = solo * 500 / milhao;
+    let valorOperacao = meses * 3700000000 / bilhao;
+
+    simulacao ++ ;
+
+    let total = valorFamilias + valorCasas + valorSolo + valorOperacao;
+
+        div_mensagem.innerHTML +=
+    `Simulação ${simulacao} <br><br>
+    Valor médio pago por indenizações às familias = R$${valorFamilias.toFixed(2)} milhões<br><br>
+    Valor médio pago por casas afetadas = R$${valorCasas.toFixed(2)} milhões <br><br>
+    Valor médio pago por multas ambientais de destruição do solo = R$${valorSolo.toFixed(2)} milhões  <br><br>
+    Prejuízos com operação parada/retrocesso = R$${valorOperacao.toFixed(2)} bilhões  <br><br>
+    Prejuízo total estimado: R$${total.toFixed(2)} bilhões <br>`
+}
+</script>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador financeiro</title>
+</head>
+<body>
+    <h1>Simulador financeiro</h1>
+    <!-- paralização da mina -->
+    <h2>Prejuízo por paralização</h2>
+    Produção média por dia (toneladas)<br> <br>
+    <input type="text" id="input_producao_dia"> <br> <br>
+    Valor por tonelada do minério <br> <br>
+    <input type="text" id="input_valor_minerio"> <br> <br>
+    Quantidade de dias da paralização <br> <br>
+    <input type="text" id="input_dias_paralizacao"> <br> <br>
+    Número de funcionários parados <br> <br>
+    <input type="text" id="input_funcionario_parado"> <br> <br>
+    Salário médio diário dos funcionários <br> <br>
+    <input type="text" id="input_salario_funcionario"> <br> <br>
+    <button onclick="Paralizacao()">Calcular prejuízo</button>
+    <div id="msg_paralizacao"></div>
+    
+    <!-- Recuperação do talude -->
+    <h2>Custo de recuperação do talude</h2>
+    Área do talude afetada pelo deslocamento <br> <br>
+    <input type="text" id="input_area_talude"> <br> <br>
+    <button onclick="Recuperacao()">Calcular prejuízo</button>
+    <div id="msg_recuperacao"></div>
+
+    <!-- Risco baseado no sensor da umidade do solo -->
+    <h2>Risco financeiro baseado na umidade do solo</h2>
+    Porcentagem de umidade de solo dada pela Stratify <br> <br>
+    <input type="text" id="input_porcentagem_umidade"> <br> <br>
+    <button onclick="Risco()">Calcular prejuízo</button>
+    <div id="msg_risco_sensor"></div>
+
+    <!-- Multas ambientais -->
+    <h2>Multa e limpeza ambiental</h2>
+    Área ambiental afetada <br> <br>
+    <input type="text" id="input_area_ambiental"> <br> <br>
+    Volume de rejeitos deslocados <br> <br>
+    <input type="text" id="input_volume_limpeza"> <br> <br>
+    <button onclick="Multas()">Calcular prejuízo</button>
+    <div id="msg_multa_ambiental"></div>
+
+    <!-- Indenizações por famílias -->
+    <h2>Indenização por pessoas</h2>
+    Número de famílias afetadas <br> <br>
+    <input type="text" id="input_numero_familia"> <br> <br>
+    <button onclick="Indenizacao()">Calcular prejuízo</button>
+    <div id="msg_indenizacao"></div>
+    
+</body>
+</html>
+<script>
+    function Paralizacao(){
+        let producaoDia = Number(input_producao_dia.value);
+        let valorMinerio = Number(input_valor_minerio.value);
+        let diasParalizacao = Number(input_dias_paralizacao.value);
+        let funcionarioParado = Number (input_funcionario_parado.value);
+        let salarioFuncionario = Number(input_salario_funcionario.value);
+
+        let prejuizoProducao = (valorMinerio * producaoDia) * diasParalizacao;
+        let prejuizoFuncionario = (funcionarioParado * salarioFuncionario) * diasParalizacao;
+        let prejuizoTotalParalizacao = prejuizoProducao + prejuizoFuncionario;
+
+        msg_paralizacao.innerHTML += `O prejuízo gerado pela paralização foi de R$${prejuizoTotalParalizacao}` 
+    }
+
+    function Recuperacao(){
+        let areaTalude = Number(input_area_talude.value);
+
+        let custoRecuperacao = areaTalude * 2500000;
+
+        msg_recuperacao.innerHTML += `O custo da recuperação do talude ficou em R$${custoRecuperacao}`
+    }
+
+    function Risco(){
+        let porcentagemUmidade = Number(input_porcentagem_umidade.value);
+        let prejuizoUmidade = 0;
+
+        if(porcentagemUmidade <= 40){
+            prejuizoUmidade = 0.1 * 50000000
+        }
+        else{
+            if(porcentagemUmidade <= 70){
+                prejuizoUmidade = 0.3 * 50000000
+            }
+            else{
+                if(porcentagemUmidade <= 90){
+                    prejuizoUmidade = 0.6 * 50000000
+                }
+                else{
+                    prejuizoUmidade = 0.9 * 50000000
+                }
+            }
+        }
+        msg_risco_sensor.innerHTML = `O prejuízo baseado na porcentagem da umidade do solo, fornecida pela Stratify ficou R$${prejuizoUmidade} `
+    }
+
+    function Multas(){
+        let areaAmbiental = Number(input_area_ambiental.value);
+        let volumeLimpeza = Number(input_volume_limpeza.value);
+        
+        let prejuizoAreaAmbiental = areaAmbiental * 50000; 
+        let prejuizoLimpezaAmbiental = volumeLimpeza * 120;
+        let prejuizoTotalAmbiental = prejuizoAreaAmbiental + prejuizoLimpezaAmbiental;
+
+        msg_multa_ambiental.innerHTML = `O prejuízo total por danos ambientais e da limpeza foi de R$${prejuizoTotalAmbiental}`
+    }
+
+    function Indenizacao(){
+        let familias = Number(input_numero_familia.value);
+        
+        let prejuizoIndenizacao = familias * 80000;
+
+        msg_indenizacao.innerHTML = `O prejuízo das indenizações foi de R$${prejuizoIndenizacao}`
+    }
+</script>

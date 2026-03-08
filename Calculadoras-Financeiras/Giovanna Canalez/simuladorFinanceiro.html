@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Financeiro</title>
+</head>
+<body>
+   <h1>Simulador Financeiro - Stratify</h1> <p>A mineração é uma atividade essencial para a economia, mas também envolve riscos ambientais e 
+    estruturais. O aumento da umidade no solo pode reduzir a estabilidade do terreno, 
+    elevando o risco de deslizamentos em encostas e barragens de rejeitos. </p>
+<p>Além dos impactos ambientais e sociais, acidentes desse tipo podem gerar grandes prejuízos financeiros 
+para as empresas, incluindo paralisação das operações, multas e altos custos de reparação. Por isso, sistemas de monitoramento da umidade do solo se tornam importantes para identificar riscos 
+com antecedência. Com esse tipo de tecnologia, empresas podem agir de forma preventiva, aumentando 
+a segurança e reduzindo possíveis perdas econômicas. </p>
+<h3><p><b>A seguir estará disponível um simulador financeiro para a consulta dos valores:</b></p></h3>
+
+Quantidade de sensores necessária: <b>1 sensor para cada 100 m² da área monitorada</b>, garantindo medições confiáveis da umidade do solo e detecção precoce de possíveis instabilidades no terreno.
+<br><br>
+ * Insira a área que deseja monitorar em <i>metros quadrados</i> <input type="text" id="ipt_metrosUsuario"> 
+<button onclick="qntSensor()">Calcular Quantidade de Sensores</button> <br><br>
+<div id="quantidadeSensor"></div>
+
+O preço unitário de cada sensor de umidade do solo é de <i>R$1.000,00</i>, valor utilizado para calcular o custo total do sistema de monitoramento de acordo com a quantidade de sensores necessária para a área informada.
+<button onclick="valorPorSensor()">Calcular valor total dos sensores</button> <br><br>
+<div id="valorDoSensor"></div>
+
+O custo de instalação considera a mão de obra necessária para posicionamento dos sensores no solo, configuração do sistema e integração com a plataforma de monitoramento. Esse valor é de R$50,00 por sensor
+<button onclick="maoDeObra()">Calcular o custo de mão de obra</button> <br><br>
+<div id="valorObra"></div>    
+
+O preço total do sistema considera o valor unitário de cada sensor somado ao custo da mão de obra necessária para instalar e configurar todos os dispositivos na área informada.
+<button onclick="valorDispositivo()">Calcular custo total do dispositivo</button> <br><br>
+<div id="custoDispositivo"></div>
+______________________________________________________________________________________________________________________________________________________________________
+
+<h3>Estimar o prejuízo médio por deslizamento:</h3>
+<p>O prejuízo estimado considera o valor médio que uma mineradora pode perder devido a deslizamentos ou instabilidades do solo, incluindo paralisação da produção, perda de minério, danos a equipamentos e multas ambientais. Como referência, casos reais no Brasil mostram que empresas podem enfrentar perdas na ordem de R$ 20 milhões por evento desse tipo (UOL Notícias, 2023
+), evidenciando a importância de sistemas de monitoramento preventivo.</p>
+<b>*A probabilidade anual de deslizamento:</b> <br>
+Sem monitoramento: 8% ao ano <br>
+Com monitoramento: 2% ao ano <br><br>
+
+<button onclick="semDispositivo()">Calcular Valor <b>Sem</b> Dispositivo</button>
+<button onclick="comDispositivo()">Calcular Valor <b>Com</b> Dispositivo</button>
+<div id="mensagem"></div>
+______________________________________________________________________________________________________________________________________________________________________
+
+<h3>Economia Anual:</h3>
+A economia anual representa o valor que a empresa deixa de perder graças ao monitoramento preventivo, calculado como a diferença entre o prejuízo estimado sem o sistema e o prejuízo esperado com o sistema instalado.
+<br><br><button onclick="economia()">Ver Economia Anual</button><br><br>
+<div id="eco"></div>
+</body>
+</html>
+<script>
+    function qntSensor(){ // calcular quantidade de sensores
+     let area = Number(ipt_metrosUsuario.value);
+     let sensor = area / 100;
+        quantidadeSensor.innerHTML = `<b>A quantidade de sensores necessários será de ${sensor}</b><br><br>`
+    }
+
+    function valorPorSensor(){ // calcular custo total dos sensores
+     let area = Number(ipt_metrosUsuario.value);
+     let sensor = area / 100;
+     let valores = sensor * 1000
+        valorDoSensor.innerHTML = `<b>O valor total dos sensores será de R$${valores},00</b><br><br>`
+    }
+
+    function maoDeObra(){ // calcular mão de obra
+     let area = Number(ipt_metrosUsuario.value);
+     let sensor = area / 100;
+     let custoInstalacao = sensor * 50
+        valorObra.innerHTML = `<b>O valor da instalação será de R$${custoInstalacao},00</b><br><br>`
+    }
+
+    function valorDispositivo(){ // calcular valor total
+     let area = Number(ipt_metrosUsuario.value);
+     let sensor = area / 100;
+     let custoInstalacao = sensor * 50
+     let valores = sensor * 1000
+     let valorTotal = valores + custoInstalacao
+        custoDispositivo.innerHTML = `<b>O valor total do dispositivo é de R$${valorTotal},00</b><br><br>`
+    }
+
+    function semDispositivo(){
+     let prejuízo = Number(20)
+     let sem = 20 * 0.08
+     mensagem.innerHTML += `<br>O valor do prejuízo sem o dispositivo instalado é de R$${sem} milhões<br><br>`
+    }
+
+     function comDispositivo(){
+     let prejuízo = Number(20)
+     let com = prejuízo * 0.02
+     mensagem.innerHTML += `O valor do prejuízo com o dispositivo instalado é de R$${com} milhões<br><br`
+    }
+
+    function economia(){
+     let prejuízo = Number(20)
+     let sem = 20 * 0.08
+     let com = prejuízo * 0.02
+     let valor = sem - com 
+     eco.innerHTML = `O valor da economia anual com o dispositivo instalado é de R$${valor.toFixed(2)} milhões<br><br`
+    }
+
+</script>

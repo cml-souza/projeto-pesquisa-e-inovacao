@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador Financeiro</title>
+    <style>
+        #container_simulador{
+            font-family: 'Segoe UI';
+            width: 30vw;
+            text-align: justify;
+            margin: auto;
+        }
+
+        h2{
+            color: #545525;
+        }
+
+        h3, h4 {
+            font-weight: normal;
+        }
+
+        input{
+            width: 15vw;
+            height: 3vh;
+            border: none;
+            border-radius: 5px;
+            background-color: gainsboro;
+        }
+
+        #btn_simular{
+            background-color: gainsboro;
+            border: none;
+            width: 8vw;
+            height: 3vh;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="container_simulador">
+        <div id="cabecalho">
+            <h2>Simulador Financeiro</h2>
+            <h3>Esta calculadora tem por fim simular custos sofridos durante falhas na operação de mineradoras no caso de cedimento de tuplas e barragens, simulando a média de prejuízos operacionais e judiciais com base no mercado atual.</h3>
+        </div>
+        <div id="comentario">
+            <h4>Vale destacar que: O custo de paralisação pode variar de U$2 milhões <b>por dia</b>, dependendo da cotação do minério de ferro e do volume de produção interrompido. Além disso as empresas arcam com custos de manutenção de infraestrutura ociosa e possíveis multas contratuais por atraso na entrega de carga. As multas também podem variar, algumas podem ser aplicadas por hectare atingido, ou por indivíduo quando se trata de espécies ameaçadas de extinção afetadas, em alguns casos a multa pode ser efetuada <b>por dia</b>.</h4>
+        </div>
+        <div id="qst_calculadora">
+        Quantas paralizações em decorrencência do cedimento de rejeitos ou taludes ocorrem por ano?
+        <br><br>
+        <input type="number" id="input_cedimento" placeholder="Digite aqui"> 
+        <br><br>
+
+        Em média, quantas acordos envolvendo indenizações ocorrem por ano?
+        <br><br>
+        <input type="number" id="input_indenizacao" placeholder="Digite aqui">
+        <br><br>
+
+        De 0 a 10, qual a recorrência de bloqueios judiciais sofridos pela empresa na decorrência de acidentes?
+        <br><br>
+        <input type="number" id="input_bloqueio" placeholder="Digite aqui"><br><br>
+        De 0 a 10, qual a frequência em que a empresa lida com multas ambientais?
+        <br><br>
+
+        <input type="number" id="input_multa" placeholder="Digite aqui"> 
+        <br><br>
+        <button id="btn_simular" onclick="simular()"><b>Simular Custos</b></button>
+        <br><br>
+
+        <div id="div_mensagem"></div>
+    </div>
+    </div>
+</body>
+</html>
+<script>
+    function simular(){
+        let cedimento = Number(input_cedimento.value);
+        let indenizacao = Number(input_indenizacao.value);
+        let bloqueio = Number(input_bloqueio.value);
+        let multas = Number(input_multa.value);
+
+        let custoParalisacaoDolar = 500000;
+        let dolar = 5.00;
+        let custoParalisacaoReal = custoParalisacaoDolar * dolar
+        let prejParalisacao = custoParalisacaoReal * cedimento;
+        
+        let indenizacaoIndividual = 40000;
+        let indenizacaoFatal = 800000;
+        let indDanoColetivo = 20000000;
+        let mediaIndenizacao = (indenizacaoIndividual + indenizacaoFatal + indDanoColetivo) / 3;
+        let prejAnualInd = indenizacao * mediaIndenizacao;
+
+        let bloqueioJud = 31000000;
+        let blockGrave = 200000000;
+        let mediaBlock = (bloqueioJud + blockGrave) / 2;
+        let prejBlock = (bloqueio / 10) * mediaBlock;
+
+        let infracAmbiental = 50000000;
+        let infracDescumprimentos = 5000000;
+        let mediaMulta = (infracAmbiental + infracDescumprimentos) / 2;
+        let prejMulta = (multas / 10) * mediaMulta;
+
+        let prejTotal = (prejParalisacao + prejAnualInd + prejBlock + prejMulta)
+
+        div_mensagem.innerHTML = `De acordo com os dados fornecidos você enfrenta em média: 
+        <br> R$ ${prejParalisacao.toLocaleString('pt-BR')} de custos em caso de paralisação, 
+        <br> R$ ${prejAnualInd.toLocaleString('pt-BR')} em caso de indenizações, 
+        <br> R$ ${prejBlock.toLocaleString('pt-BR')} com bloqueios judiciais, 
+        <br> e R$ ${prejMulta.toLocaleString('pt-br')} em multas ambientais.
+        <br>
+        Totalizando em média: <b>R$ ${prejTotal.toLocaleString('pt-BR')}`
+        
+    }
+</script>

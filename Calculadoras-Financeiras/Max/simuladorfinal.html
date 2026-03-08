@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Simulador Financeiro</h1>
+
+        <label>Faturamento mensal da operação (R$)</label>
+        <input type="number" id="inp_faturamento"><br>
+
+        <label>Custo mensal de operação (R$)</label>
+        <input type="number" id="inp_custo"><br>
+
+        <label>Probabilidade estimada de incidente (%)</label>
+        <input type="number" id="inp_probabilidade"><br>
+
+        <label>Custo estimado de um desastre (R$)</label>
+        <input type="number" id="inp_desastre"><br>
+
+        <label>Investimento no sistema de monitoramento (R$)</label>
+        <input type="number" id="inp_investimento"><br>
+
+        <button onclick="calcular()">Calcular Impacto</button>
+
+        <div id="resultado"></div>
+    </div>
+</body>
+
+</html>
+<script>
+    function formatarDinheiro(valor) {
+        if (valor >= 1000000000) {
+            return "R$ " + (valor / 1000000000).toFixed(2) + " bilhões";
+        }
+        else if (valor >= 1000000) {
+            return "R$ " + (valor / 1000000).toFixed(2) + " milhões";
+        }
+        else if (valor >= 1000) {
+            return "R$ " + (valor / 1000).toFixed(2) + " mil";
+        }
+        else {
+            return "R$ " + valor.toFixed(2);
+        }
+    }
+    
+    function calcular() {
+        let faturamento = Number(inp_faturamento.value);
+        let custo = Number(inp_custo.value);
+        let probabilidade = Number(inp_probabilidade.value);
+        let desastre = Number(inp_desastre.value);
+        let investimento = Number(inp_investimento.value);
+
+        let lucroMensal = faturamento - custo;
+
+        let perdaEsperada = probabilidade * desastre;
+
+        let novaProbabilidade = probabilidade * 0.5;
+        let novaPerdaEsperada = novaProbabilidade * desastre;
+
+        let economiaComMonitoramento = perdaEsperada - novaPerdaEsperada;
+
+        let retorno = economiaComMonitoramento - investimento;
+        let resultadoTexto = '';
+        resultadoTexto += `Lucro mensal atual: ${formatarDinheiro(lucroMensal)}<br><br>
+        Perda financeira esperada SEM monitoramento: ${formatarDinheiro(perdaEsperada)}<br>
+        Perda financeira esperada COM monitoramento: ${formatarDinheiro(novaPerdaEsperada)}<br><br>
+        Economia estimada com o sistema: ${formatarDinheiro(economiaComMonitoramento)}<br><br>`;
+
+        if (retorno > 0) {
+            resultadoTexto += `O investimento tende a gerar retorno positivo estimado de R$ ${formatarDinheiro(retorno)}.`;
+        } else {
+            resultadoTexto += `O investimento pode não gerar retorno imediato. Avaliar estratégia.`;
+        }
+
+        resultado.innerHTML = resultadoTexto;
+    }    
+</script>

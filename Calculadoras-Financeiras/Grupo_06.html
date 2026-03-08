@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Simulador Financeiro </title>
+</head>
+
+<body>
+    <h1>Simulador Financeiro - Stratify</h1>
+    <h3>
+        <p><b>A seguir estará disponível um simulador financeiro para a consulta dos valores:</b></p>
+    </h3>
+    <h2>Prejuízo por paralisação</h2>
+    <h3>Quantidade de dias da paralisação: </h3><br>
+    <input type="text" id="input_dias_paralisacao"> <br> <br>
+    <h3>Número de funcionários parados: </h3><br>
+    <input type="text" id="input_funcionario_parado"> <br> <br>
+    <h3>Salário médio diário dos funcionários: </h3><br>
+    <input type="text" id="input_salario_funcionario"> <br> <br>
+
+    <h2>Prejuízo por indenizações</h2>
+    <h3>Número de famílias afetadas: </h3><br>
+    <input type="text" id="input_numero_familia"> <br> <br>
+    <h3>Área ambiental afetada: </h3><br>
+    <input type="text" id="input_area_ambiental"> <br> <br>
+    <h3>Volume de rejeitos deslocados: </h3><br>
+    <input type="text" id="input_volume_limpeza"><br>
+
+    <h2>Prejuízos de reparações</h2>
+    <h3>Área do talude afetada pelo deslocamento: </h3> <br>
+    <input type="text" id="input_area_talude"> <br> <br>
+
+    <h2>Receitas</h2>
+    <h3>Receita diária: </h3><br>
+    <input type="text" id="input_receita_dia"> <br> <br>
+
+    <h2>Custos de instalação do sistema de monitoramento</h2>
+    <h3>Insira a área que deseja monitorar em <i>metros quadrados</i></h3><br>
+    <input type="text" id="input_area_monitorada"> <br> <br>
+
+    <button onclick="Calcular()"><h3> CALCULAR </h3></button>
+
+    <div><h3 id="div_mensagem"></h3></div>
+</body>
+
+</html>
+<script>
+    function Calcular() {
+
+        // Total de prejuízos por paralisacao
+        let diasP = Number(input_dias_paralisacao.value);
+        let funcionariosP = Number(input_funcionario_parado.value);
+        let salarioF = Number(input_salario_funcionario.value);
+        let totalParalisacao = salarioF * funcionariosP * diasP;
+
+        // Total de prejuizos por Indenizações
+        let familias = Number(input_numero_familia.value) * 80000; // R$80.000 por familia afetada
+        let areaAmbiental = Number(input_area_ambiental.value) * 50000; // R$50.000 Por metros quadrados afetados
+        let volumeRejeitos = Number(input_volume_limpeza.value) * 120; // R$120 metro cúbico de rejeitos
+        let totalIndenizacoes = familias + areaAmbiental + volumeRejeitos
+
+        // Total de prejuízos com reparações
+        let areaReparada = Number(input_area_talude.value) * 250000; // R$250.000 por metro quadrado reparado
+
+        // Receitas adquiridas
+        let receitaD = Number(input_receita_dia.value)
+        let comparacaoParalisacao = receitaD * diasP
+
+        // Total de Prejuizos
+        let totalPrejuizos = areaReparada + totalIndenizacoes + totalParalisacao + comparacaoParalisacao
+
+        // Valor evitado de prejuízos
+        let valorReduzido = totalPrejuizos * 0.45 // Soluções preventivas de monitoramento costumam reduzir de 20 a 60% os custos com prejuízos
+
+        // Cálculo do valor a ser pago para adesão dos serviços de monitoramento
+        let area = Number(input_area_monitorada.value)
+        let sensor = area / 100 // 1 sensor para cada 100 metros quadrados
+        let custoInstalacao = sensor * 50 // R$50,00 para instalação de cada sensor
+        let valorContratual = sensor + custoInstalacao + 50000 // Valor estabelecido a ser pago pela contratante pelos serviços Stratify
+
+        div_mensagem.innerHTML = `De acordo com os dados fornecidos você enfrenta em média: 
+        <br> R$ ${totalParalisacao.toLocaleString('pt-BR')} de custos em caso de paralisação, 
+        <br> R$ ${totalIndenizacoes.toLocaleString('pt-BR')} em caso de indenizações, 
+        <br> R$ ${areaReparada.toLocaleString('pt-BR')} com custos de reparação,
+        Com uma receita diária aproximada de: <b>R$ ${receitaD.toLocaleString('pt-BR')}</b>, <br>
+        com os dias de paralisação você deixaria de ganhar R$ ${comparacaoParalisacao.toLocaleString('pt-BR')}
+        <br> e resultando num total de R$ ${totalPrejuizos.toLocaleString('pt-BR')} em prejuízos.
+        <br> <br> <br>
+
+        Adquirindo nossos serviços no valor de R$ ${valorContratual.toLocaleString('pt-BR')}, <br>
+        sua empresa reduziria cerca de R$ ${valorReduzido.toLocaleString('pt-BR')}
+`
+
+    }
+</script>

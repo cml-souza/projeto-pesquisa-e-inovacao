@@ -23,9 +23,9 @@
     <h2>Prejuízo por indenizações</h2>
     <h3>Número de famílias afetadas: </h3><br>
     <input type="text" id="input_numero_familia"> <br> <br>
-    <h3>Área ambiental afetada: </h3><br>
+    <h3>Área ambiental afetada em <i>metros quadrados</i>: </h3><br>
     <input type="text" id="input_area_ambiental"> <br> <br>
-    <h3>Volume de rejeitos deslocados: </h3><br>
+    <h3>Volume de rejeitos deslocados em <i>metros cúbicos</i>: </h3><br>
     <input type="text" id="input_volume_limpeza"><br>
 
     <h2>Prejuízos de reparações</h2>
@@ -56,13 +56,13 @@
         let totalParalisacao = salarioF * funcionariosP * diasP;
 
         // Total de prejuizos por Indenizações
-        let familias = Number(input_numero_familia.value) * 80000; // R$80.000 por familia afetada
-        let areaAmbiental = Number(input_area_ambiental.value) * 50000; // R$50.000 Por metros quadrados afetados
-        let volumeRejeitos = Number(input_volume_limpeza.value) * 120; // R$120 metro cúbico de rejeitos
+        let familias = Number(input_numero_familia.value) * 80000; // R$80.000 por familia afetada, baseado nos valores pagos no rompimento da barragem de Mariana (MG)
+        let areaAmbiental = Number(input_area_ambiental.value) * 23; // R$23 Por metros quadrados afetados, baseado nos valores pagos no rompimento da barragem de Mariana (MG)
+        let volumeRejeitos = Number(input_volume_limpeza.value) * 130; // R$130 por metro cúbico de rejeitos, dados fornecidos pela World Bank
         let totalIndenizacoes = familias + areaAmbiental + volumeRejeitos
 
         // Total de prejuízos com reparações
-        let areaReparada = Number(input_area_talude.value) * 250000; // R$250.000 por metro quadrado reparado
+        let areaReparada = Number(input_area_talude.value) * 300; // R$300 por metro quadrado reparado, baseados nos valores fornecidos pela revista Science Direct
 
         // Receitas adquiridas
         let receitaD = Number(input_receita_dia.value)
@@ -72,7 +72,7 @@
         let totalPrejuizos = areaReparada + totalIndenizacoes + totalParalisacao + comparacaoParalisacao
 
         // Valor evitado de prejuízos
-        let valorReduzido = totalPrejuizos * 0.45 // Soluções preventivas de monitoramento costumam reduzir de 20 a 60% os custos com prejuízos
+        let valorReduzido = totalPrejuizos * 0.45 // Soluções preventivas de monitoramento costumam reduzir de 20 a 60% os custos com prejuízos, segundo o software de manutenção Fracttal
 
         // Cálculo do valor a ser pago para adesão dos serviços de monitoramento
         let area = Number(input_area_monitorada.value)
@@ -92,6 +92,5 @@
         Adquirindo nossos serviços no valor de R$ ${valorContratual.toLocaleString('pt-BR')}, <br>
         sua empresa reduziria cerca de R$ ${valorReduzido.toLocaleString('pt-BR')}
 `
-
     }
 </script>
